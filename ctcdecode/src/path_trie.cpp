@@ -14,6 +14,7 @@ PathTrie::PathTrie() {
   log_prob_b_cur = -NUM_FLT_INF;
   log_prob_nb_cur = -NUM_FLT_INF;
   score = -NUM_FLT_INF;
+  raw_prob = -NUM_FLT_INF;
 
   ROOT_ = -1;
   character = ROOT_;
@@ -103,7 +104,7 @@ PathTrie* PathTrie::get_path_vec(std::vector<int>& output,
   } else {
     output.push_back(character);
     timesteps.push_back(timestep);
-    scores.push_back(score);
+    scores.push_back(raw_prob);
     return parent->get_path_vec(output, timesteps, scores, stop, max_steps);
   }
 }
