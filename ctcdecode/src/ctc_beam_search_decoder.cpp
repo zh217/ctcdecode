@@ -172,7 +172,8 @@ std::vector<std::pair<double, Output>> ctc_beam_search_decoder(
     if (ext_scorer != nullptr) {
       std::vector<int> output;
       std::vector<int> timesteps;
-      prefixes[i]->get_path_vec(output, timesteps);
+      std::vector<float> scores;
+      prefixes[i]->get_path_vec(output, timesteps, scores);
       auto prefix_length = output.size();
       auto words = ext_scorer->split_labels(output);
       // remove word insert

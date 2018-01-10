@@ -8,6 +8,7 @@ int paddle_beam_decode(THFloatTensor *th_probs,
                                   size_t blank_id,
                                   THIntTensor *th_output,
                                   THIntTensor *th_timesteps,
+                                  THFloatTensor *th_char_scores,
                                   THIntTensor *th_scores,
                                   THIntTensor *th_seq_length);
 
@@ -22,6 +23,7 @@ int paddle_beam_decode_lm(THFloatTensor *th_probs,
                                   void *scorer,
                                   THIntTensor *th_output,
                                   THIntTensor *th_timesteps,
+                                  THFloatTensor *th_char_scores,
                                   THIntTensor *th_scores,
                                   THIntTensor *th_seq_length);
 

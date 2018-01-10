@@ -86,22 +86,25 @@ PathTrie* PathTrie::get_path_trie(int new_char, int new_timestep, bool reset) {
   }
 }
 
-PathTrie* PathTrie::get_path_vec(std::vector<int>& output, std::vector<int>& timesteps) {
-  return get_path_vec(output, timesteps, ROOT_);
+PathTrie* PathTrie::get_path_vec(std::vector<int>& output, std::vector<int>& timesteps, std::vector<float>& scores) {
+  return get_path_vec(output, timesteps, scores, ROOT_);
 }
 
 PathTrie* PathTrie::get_path_vec(std::vector<int>& output,
                                  std::vector<int>& timesteps,
+                                 std::vector<float>& scores,
                                  int stop,
                                  size_t max_steps) {
   if (character == stop || character == ROOT_ || output.size() == max_steps) {
     std::reverse(output.begin(), output.end());
     std::reverse(timesteps.begin(), timesteps.end());
+    std::reverse(scores.begin(), scores.end());
     return this;
   } else {
     output.push_back(character);
     timesteps.push_back(timestep);
-    return parent->get_path_vec(output, timesteps, stop, max_steps);
+    scores.push_back(score);
+    return parent->get_path_vec(output, timesteps, scores, stop, max_steps);
   }
 }
 
