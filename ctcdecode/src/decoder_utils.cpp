@@ -60,8 +60,8 @@ std::vector<std::pair<double, Output>> get_beam_search_result(
     outputs.tokens = output;
     outputs.timesteps = timesteps;
     outputs.scores = scores;
-    std::cout << space_prefixes[i]->scores.size() << "scores size \n";
-    std::cout << space_prefixes[i]->output.size() << "output size \n";
+    std::cout << scores.size() << "scores size \n";
+    std::cout << output.size() << "output size \n";
     for(size_t x = 0; x < scores.size(); x++){
         std::cout << output[x] << "\n";
         std::cout << scores[x] << "\n";
