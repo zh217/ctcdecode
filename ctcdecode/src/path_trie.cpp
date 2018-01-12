@@ -106,6 +106,8 @@ PathTrie* PathTrie::get_path_vec(std::vector<int>& output,
     output.push_back(character);
     timesteps.push_back(timestep);
     scores.push_back(raw_score);
+    std::cout << raw_score << "RAW SCORE \n";
+    std::cout << score << "SCORE \n";
     return parent->get_path_vec(output, timesteps, scores, stop, max_steps);
   }
 }
