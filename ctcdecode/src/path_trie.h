@@ -48,7 +48,7 @@ public:
   float log_prob_b_cur;
   float log_prob_nb_cur;
   float score;
-  std::vector<float> score_t;
+  float raw_score;
   float raw_prob;
   float approx_ctc;
   int character;
