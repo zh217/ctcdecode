@@ -125,7 +125,6 @@ std::vector<std::pair<double, Output>> ctc_beam_search_decoder(
             log_p += score;
             log_p += ext_scorer->beta;
           }
-          prefix_new->raw_prob = log_p;
           prefix_new->log_prob_nb_cur =
               log_sum_exp(prefix_new->log_prob_nb_cur, log_p);
         }
