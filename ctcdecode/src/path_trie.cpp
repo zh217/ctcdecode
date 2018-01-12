@@ -16,6 +16,8 @@ PathTrie::PathTrie() {
   score = -NUM_FLT_INF;
   raw_prob = -NUM_FLT_INF;
 
+  std::vector<float> score_t;
+
   ROOT_ = -1;
   character = ROOT_;
   timestep = 0;
@@ -116,8 +118,8 @@ void PathTrie::iterate_to_vec(std::vector<PathTrie*>& output) {
 
     log_prob_b_cur = -NUM_FLT_INF;
     log_prob_nb_cur = -NUM_FLT_INF;
-
     score = log_sum_exp(log_prob_b_prev, log_prob_nb_prev);
+    score_t.push_back(score);
     output.push_back(this);
   }
   for (auto child : children_) {
