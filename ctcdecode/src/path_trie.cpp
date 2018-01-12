@@ -118,8 +118,8 @@ void PathTrie::iterate_to_vec(std::vector<PathTrie*>& output) {
 
     log_prob_b_cur = -NUM_FLT_INF;
     log_prob_nb_cur = -NUM_FLT_INF;
-    score = log_sum_exp(log_prob_b_prev, log_prob_nb_prev);
     score_t.push_back(score);
+    score = log_sum_exp(log_prob_b_prev, log_prob_nb_prev);
     output.push_back(this);
   }
   for (auto child : children_) {
