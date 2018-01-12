@@ -62,7 +62,7 @@ std::vector<std::pair<double, Output>> get_beam_search_result(
     outputs.scores = scores;
     std::cout << space_prefixes[i]->score_t.size() << "scores size \n";
     for(size_t x = 0; x < output.size(); x++){
-        std::cout << output[x];
+        std::cout << output[x] << " ";
     }
     std::cout << "\n";
     std::pair<double, Output> output_pair(-space_prefixes[i]->approx_ctc,
