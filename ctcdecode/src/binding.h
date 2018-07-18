@@ -29,6 +29,7 @@ int paddle_beam_decode_lm(THFloatTensor *th_probs,
 
 void* paddle_get_scorer(double alpha,
                         double beta,
+                        double oov_score,
                         const char* lm_path,
                         const char* labels,
                         int vocab_size);
@@ -36,4 +37,4 @@ void* paddle_get_scorer(double alpha,
 int is_character_based(void *scorer);
 size_t get_max_order(void *scorer);
 size_t get_dict_size(void *scorer);
-void reset_params(void *scorer, double alpha, double beta);
+void reset_params(void *scorer, double alpha, double beta, double oov_score);

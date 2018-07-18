@@ -126,12 +126,13 @@ extern "C"
 
     void* paddle_get_scorer(double alpha,
                             double beta,
+                            double oov_score,
                             const char* lm_path,
                             const char* labels,
                             int vocab_size) {
         std::vector<std::string> new_vocab;
         utf8_to_utf8_char_vec(labels, new_vocab);
-        Scorer* scorer = new Scorer(alpha, beta, lm_path, new_vocab);
+        Scorer* scorer = new Scorer(alpha, beta, oov_score, lm_path, new_vocab);
         return static_cast<void*>(scorer);
     }
 
@@ -148,8 +149,8 @@ extern "C"
         return ext_scorer->get_dict_size();
     }
 
-    void reset_params(void *scorer, double alpha, double beta){
+    void reset_params(void *scorer, double alpha, double beta, double oov_score){
         Scorer *ext_scorer  = static_cast<Scorer *>(scorer);
-        ext_scorer->reset_params(alpha, beta);
+        ext_scorer->reset_params(alpha, beta, oov_score);
     }
 }

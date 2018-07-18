@@ -3,8 +3,8 @@ import torch
 
 
 class CTCBeamDecoder(object):
-    def __init__(self, labels, model_path=None, alpha=0, beta=0, cutoff_top_n=40, cutoff_prob=1.0, beam_width=100,
-                 num_processes=4, blank_id=0):
+    def __init__(self, labels, model_path=None, alpha=0, beta=0, oov_score=-1000.0, cutoff_top_n=40, cutoff_prob=1.0,
+                 beam_width=100, num_processes=4, blank_id=0):
         self.cutoff_top_n = cutoff_top_n
         self._beam_width = beam_width
         self._scorer = None
@@ -13,7 +13,7 @@ class CTCBeamDecoder(object):
         self._num_labels = len(labels)
         self._blank_id = blank_id
         if model_path:
-            self._scorer = ctc_decode.paddle_get_scorer(alpha, beta, model_path.encode(), self._labels,
+            self._scorer = ctc_decode.paddle_get_scorer(alpha, beta, oov_score, model_path.encode(), self._labels,
                                                         self._num_labels)
         self._cutoff_prob = cutoff_prob
 
@@ -34,7 +34,8 @@ class CTCBeamDecoder(object):
                                              self._num_processes, self._cutoff_prob, self.cutoff_top_n, self._blank_id,
                                              self._scorer, output, timesteps, scores, out_seq_len)
         else:
-            ctc_decode.paddle_beam_decode(probs, seq_lens, self._labels, self._num_labels, self._beam_width, self._num_processes,
+            ctc_decode.paddle_beam_decode(probs, seq_lens, self._labels, self._num_labels, self._beam_width,
+                                          self._num_processes,
                                           self._cutoff_prob, self.cutoff_top_n, self._blank_id, output, timesteps,
                                           scores, out_seq_len)
 
@@ -49,6 +50,6 @@ class CTCBeamDecoder(object):
     def dict_size(self):
         return ctc_decode.get_dict_size(self._scorer) if self._scorer else None
 
-    def reset_params(self, alpha, beta):
+    def reset_params(self, alpha, beta, oov_score=-1000.0):
         if self._scorer is not None:
-            ctc_decode.reset_params(self._scorer, alpha, beta)
+            ctc_decode.reset_params(self._scorer, alpha, beta, oov_score)

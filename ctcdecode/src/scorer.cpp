@@ -15,10 +15,12 @@ using namespace lm::ngram;
 
 Scorer::Scorer(double alpha,
                double beta,
+               double oov_score,
                const std::string& lm_path,
                const std::vector<std::string>& vocab_list) {
   this->alpha = alpha;
   this->beta = beta;
+  this->oov_score = oov_score;
 
   dictionary = nullptr;
   is_character_based_ = true;
@@ -81,7 +83,7 @@ double Scorer::get_log_cond_prob(const std::vector<std::string>& words) {
     lm::WordIndex word_index = model->BaseVocabulary().Index(words[i]);
     // encounter OOV
     if (word_index == 0) {
-      return OOV_SCORE;
+      return this->oov_score;
     }
     cond_prob = model->BaseScore(&state, word_index, &out_state);
     tmp_state = state;
@@ -119,9 +121,10 @@ double Scorer::get_log_prob(const std::vector<std::string>& words) {
   return score;
 }
 
-void Scorer::reset_params(float alpha, float beta) {
+void Scorer::reset_params(double alpha, double beta, double oov_score) {
   this->alpha = alpha;
   this->beta = beta;
+  this->oov_score = oov_score;
 }
 
 std::string Scorer::vec2str(const std::vector<int>& input) {

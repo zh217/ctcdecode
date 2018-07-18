@@ -13,7 +13,6 @@
 
 #include "path_trie.h"
 
-const double OOV_SCORE = -1000.0;
 const std::string START_TOKEN = "<s>";
 const std::string UNK_TOKEN = "<unk>";
 const std::string END_TOKEN = "</s>";
@@ -42,6 +41,7 @@ class Scorer {
 public:
   Scorer(double alpha,
          double beta,
+         double oov_score,
          const std::string &lm_path,
          const std::vector<std::string> &vocabulary);
   ~Scorer();
@@ -59,8 +59,8 @@ public:
   // retrun true if the language model is character based
   bool is_character_based() const { return is_character_based_; }
 
-  // reset params alpha & beta
-  void reset_params(float alpha, float beta);
+  // reset params alpha, beta & oov score
+  void reset_params(double alpha, double beta, double oov_score);
 
   // make ngram for a given prefix
   std::vector<std::string> make_ngram(PathTrie *prefix);
@@ -73,6 +73,8 @@ public:
   double alpha;
   // word insertion weight
   double beta;
+  // OOV score
+  double oov_score;
 
   // pointer to the dictionary of FST
   void *dictionary;
