@@ -6,6 +6,8 @@ from setuptools import setup, find_packages, distutils
 
 this_file = os.path.dirname(__file__)
 
+import build
+
 
 # monkey-patch for parallel compilation
 # See: https://stackoverflow.com/a/13176803
@@ -51,7 +53,13 @@ setup(
     # Exclude the build files.
     packages=find_packages(exclude=["build"]),
     ext_package="",
-    cffi_modules=[
-        os.path.join(this_file, "build.py:ffi")
-    ]
+
+    ext_modules=[build.ext],
+    cmdclass={
+        'build_ext': build.build_ext
+    }
+
+    # cffi_modules=[
+    #     os.path.join(this_file, "build.py:ffi")
+    # ]
 )

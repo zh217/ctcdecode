@@ -7,6 +7,7 @@ import warnings
 
 import wget
 from torch.utils.ffi import create_extension
+from torch.utils.cpp_extension import BuildExtension, CppExtension
 
 
 def download_extract(url, dl_path):
@@ -65,17 +66,28 @@ third_party_includes = [os.path.realpath(os.path.join("third_party", lib)) for l
 ctc_sources = glob.glob('ctcdecode/src/*.cpp')
 ctc_headers = ['ctcdecode/src/binding.h', ]
 
-ffi = create_extension(
-    name='ctcdecode._ext.ctc_decode',
-    package=True,
-    language='c++',
-    headers=ctc_headers,
-    sources=ctc_sources + lib_sources,
-    include_dirs=third_party_includes,
-    with_cuda=False,
-    libraries=ext_libs,
-    extra_compile_args=compile_args
-)
+# ffi = create_extension(
+#     name='ctcdecode._ext.ctc_decode',
+#     package=True,
+#     language='c++',
+#     headers=ctc_headers,
+#     sources=ctc_sources + lib_sources,
+#     include_dirs=third_party_includes,
+#     with_cuda=False,
+#     libraries=ext_libs,
+#     extra_compile_args=compile_args
+# )
+#
+# if __name__ == '__main__':
+#     ffi.build()
 
-if __name__ == '__main__':
-    ffi.build()
+
+ext = CppExtension(
+    name='ctcdecode._ext.ctc_decode',
+    language='c++',
+    include_dirs=ctc_headers + third_party_includes,
+    sources=ctc_sources + lib_sources,
+    libraries=ext_libs,
+    extra_compile_args=compile_args)
+
+build_ext = BuildExtension
